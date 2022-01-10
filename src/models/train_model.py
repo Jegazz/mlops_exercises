@@ -3,7 +3,6 @@ import os
 import pdb
 import sys
 import time
-
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
@@ -11,39 +10,31 @@ from src.models.model import MyAwesomeModel
 from numpy import mod
 from torch import nn, optim
 from src.data.data import mnist
+import hydra
 
-def TrainModel():
-    parser = argparse.ArgumentParser(
-        description="Script for training models",
-        usage="python train_model.py <arguments>",
-    )
-    parser.add_argument("lr",type=float, help="learning rate", default=0.001)
-    args = parser.parse_args(sys.argv[1:])
-
+@hydra.main(config_path="configs", config_name="config.yaml")
+def TrainModel(cfg):
     experiment_time = time.strftime("%Y%m%d-%H%M%S")
     model_name = experiment_time + "_MyAwesomeModel" + ".pt"
     figure_name = experiment_time + "_MyAwesomeModel" + ".png"
-    figure_path = os.path.abspath(os.path.join(os.getcwd(), '..', '..', 'reports', 'figures', figure_name))
-    trained_models_path = os.path.abspath(os.path.join(os.getcwd(),'..', '..', 'models', model_name))
+    figure_path = os.path.abspath(os.path.join(os.getcwd(), '..', '..','..', 'reports', 'figures', figure_name))
+    trained_models_path = os.path.abspath(os.path.join(os.getcwd(),'..', '..','..', 'models', model_name))
 
-    # TODO: Implement training loop here
-    model = MyAwesomeModel()
+    # Loading parameters from config file
+    learning_rate = cfg.training.learning_rate
+    batch_size = cfg.training.batch_size
+    epochs = cfg.training.epochs
+
+    model = MyAwesomeModel(cfg.model)
     criterion = nn.NLLLoss()
-    learning_rate = args.lr
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-    # Extracting raw data
-    train_set, _ = mnist()
-    # Extract images and labels form the loaded dataset
-    img = torch.Tensor(train_set[train_set.files[0]])
-    lbs = torch.Tensor(train_set[train_set.files[1]]).type(torch.LongTensor)
-    # Convert images and labels into tensor and create dataloader
-    train_dataset = torch.utils.data.TensorDataset(img, lbs)
+    # Extracting datasets
+    train_dataset, _ = mnist()
     trainloader = torch.utils.data.DataLoader(
-        train_dataset, batch_size=64, shuffle=True
+        train_dataset, batch_size=batch_size, shuffle=True
     )
 
-    epochs = 50
     training_loss = []
 
     for e in range(epochs):
@@ -82,5 +73,4 @@ def TrainModel():
     torch.save(model.state_dict(), trained_models_path)
 
 if __name__ == "__main__":
-    #TrainOREvaluate()
     TrainModel()

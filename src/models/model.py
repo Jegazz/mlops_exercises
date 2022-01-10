@@ -5,13 +5,13 @@ from torch import nn
 
 
 class MyAwesomeModel(nn.Module):
-    def __init__(self):
+    def __init__(self, cfg):
         super().__init__()
-        self.fc1 = nn.Linear(784, 512)
-        self.fc2 = nn.Linear(512, 256)
-        self.fc3 = nn.Linear(256, 128)
-        self.fc4 = nn.Linear(128, 10)
-        self.dropout = nn.Dropout(p=0.2)
+        self.fc1 = nn.Linear(cfg.input_size, cfg.layer2_size)
+        self.fc2 = nn.Linear(cfg.layer2_size, cfg.layer3_size)
+        self.fc3 = nn.Linear(cfg.layer3_size, cfg.layer4_size)
+        self.fc4 = nn.Linear(cfg.layer4_size, cfg.num_classes)
+        self.dropout = nn.Dropout(p=cfg.dropout)
         
     def forward(self, x):
         # make sure input tensor is flattened
