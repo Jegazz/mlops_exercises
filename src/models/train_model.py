@@ -17,8 +17,8 @@ def TrainModel(cfg):
     experiment_time = time.strftime("%Y%m%d-%H%M%S")
     model_name = experiment_time + "_MyAwesomeModel" + ".pt"
     figure_name = experiment_time + "_MyAwesomeModel" + ".png"
-    figure_path = os.path.abspath(os.path.join(os.getcwd(), '..', '..','..', 'reports', 'figures', figure_name))
-    trained_models_path = os.path.abspath(os.path.join(os.getcwd(),'..', '..','..', 'models', model_name))
+    figure_path = os.path.abspath(os.path.join(os.getcwd(), 'reports', 'figures', figure_name))
+    trained_models_path = os.path.abspath(os.path.join(os.getcwd(),'models', model_name))
 
     # Loading training parameters from config file
     learning_rate = cfg.training.learning_rate
