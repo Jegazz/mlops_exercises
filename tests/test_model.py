@@ -13,4 +13,5 @@ def test_model():
         output = model(test_tensor)
         assert output.shape == (1,10), "Output shape has to be [1, 10]"
 
-test_model()
+if __name__ == "__main__":
+    test_model()

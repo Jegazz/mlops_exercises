@@ -17,5 +17,6 @@ def test_training():
     for images, labels in trainloader:
         assert images.shape[0] == labels.shape[0], f"Images and labels need to have the same batch size"
 
-test_training()
+if __name__ == "__main__":
+    test_training()
         

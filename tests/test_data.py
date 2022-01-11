@@ -21,5 +21,6 @@ def test_data():
         assert images.shape == (28,28), "Image shape has to be [28, 28]"
         unittest.TestCase.assertTrue( 0 <= label.item() <= 10, label_mess, "Label value has to be in the range (0,10)")
 
-test_data()
+if __name__ == "__main__":
+    test_data()
     
