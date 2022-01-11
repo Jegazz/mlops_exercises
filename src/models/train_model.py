@@ -24,7 +24,7 @@ def TrainModel(cfg):
     learning_rate = cfg.training.learning_rate
     batch_size = cfg.training.batch_size
     epochs = cfg.training.epochs
-
+    
     model = MyAwesomeModel()
     criterion = nn.NLLLoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)

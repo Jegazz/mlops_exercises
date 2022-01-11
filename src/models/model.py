@@ -1,8 +1,8 @@
 import pdb
-
 import torch.nn.functional as F
 from torch import nn
 from omegaconf import OmegaConf
+import pytest
 
 
 class MyAwesomeModel(nn.Module):
@@ -16,6 +16,10 @@ class MyAwesomeModel(nn.Module):
         self.dropout = nn.Dropout(p=cfg.model.dropout)
         
     def forward(self, x):
+        with pytest.raises(ValueError) as exc_info:
+            if x.dim != 4:
+                raise ValueError("Expected input to a 4D tensor")
+        assert exc_info.type is ValueError
         # make sure input tensor is flattened
         x = x.view(x.shape[0], -1)
         
