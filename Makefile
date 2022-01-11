@@ -10,20 +10,16 @@ PROFILE = default
 PROJECT_NAME = mlops_exercises
 PYTHON_INTERPRETER = python3
 
-ifeq (,$(shell which conda))
-HAS_CONDA=False
-else
-HAS_CONDA=True
-endif
-
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
 
 ## Install Python Dependencies
 requirements: test_environment
-	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
-	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
+	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools==59.5.0 wheel
+	$(PYTHON_INTERPRETER) -m pip install -U dvc==2.9.3
+	$(PYTHON_INTERPRETER) -m pip install -U "dvc[gdrive]"
+	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt --no-cache-dir
 
 ## Make Dataset
 data: requirements
