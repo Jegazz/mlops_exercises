@@ -1,11 +1,10 @@
 import os
-
 import numpy as np
 import torch
 
 
 def mnist():
-    path = os.path.abspath(os.path.join(os.getcwd(), '..', 'data', 'raw', 'corruptmnist')) # used for debugging
+    path = os.path.abspath(os.path.join(os.getcwd(), 'data', 'raw', 'corruptmnist')) # used for debugging
 
     images = []
     labels = []
