@@ -21,6 +21,8 @@ def EvaluateModel():
     parser.add_argument("load_model_from", default="")
     args = parser.parse_args(sys.argv[1:])
 
+    processed_test_name = os.path.abspath(os.path.join(os.getcwd(), 'data/processed/test_dataset.pt'))
+
     model = MyAwesomeModel()
     state_dict = torch.load(
         os.path.join(os.getcwd(), 'models', args.load_model_from)
@@ -32,7 +34,7 @@ def EvaluateModel():
     criterion = nn.NLLLoss()
     batch_size = 64
 
-    _, test_dataset = mnist()
+    test_dataset = torch.load(processed_test_name)
     testloader = torch.utils.data.DataLoader(
         test_dataset, batch_size=batch_size, shuffle=True
     )

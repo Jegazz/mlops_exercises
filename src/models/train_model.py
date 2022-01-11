@@ -17,8 +17,9 @@ def TrainModel(cfg):
     experiment_time = time.strftime("%Y%m%d-%H%M%S")
     model_name = experiment_time + "_MyAwesomeModel" + ".pt"
     figure_name = experiment_time + "_MyAwesomeModel" + ".png"
-    figure_path = os.path.abspath(os.path.join(os.getcwd(), '..', '..','..', 'reports', 'figures', figure_name))
-    trained_models_path = os.path.abspath(os.path.join(os.getcwd(),'..', '..','..', 'models', model_name))
+    figure_path = os.path.abspath(os.path.join(os.getcwd(), 'reports', 'figures', figure_name))
+    trained_models_path = os.path.abspath(os.path.join(os.getcwd(),'models', model_name))
+    processed_train_name = os.path.abspath(os.path.join(os.getcwd(), 'data/processed/train_dataset.pt'))
 
     # Loading training parameters from config file
     learning_rate = cfg.training.learning_rate
@@ -30,7 +31,7 @@ def TrainModel(cfg):
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
     # Extracting datasets
-    train_dataset, _ = mnist()
+    train_dataset = torch.load(processed_train_name)
     trainloader = torch.utils.data.DataLoader(
         train_dataset, batch_size=batch_size, shuffle=True
     )
