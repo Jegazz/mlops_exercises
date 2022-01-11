@@ -10,9 +10,9 @@ from src.models.model import MyAwesomeModel
 from numpy import mod
 from torch import nn, optim
 from src.data.data import mnist
-import hydra
+from omegaconf import OmegaConf
 
-@hydra.main(config_path="configs", config_name="config.yaml")
+
 def TrainModel(cfg):
     experiment_time = time.strftime("%Y%m%d-%H%M%S")
     model_name = experiment_time + "_MyAwesomeModel" + ".pt"
@@ -20,12 +20,12 @@ def TrainModel(cfg):
     figure_path = os.path.abspath(os.path.join(os.getcwd(), '..', '..','..', 'reports', 'figures', figure_name))
     trained_models_path = os.path.abspath(os.path.join(os.getcwd(),'..', '..','..', 'models', model_name))
 
-    # Loading parameters from config file
+    # Loading training parameters from config file
     learning_rate = cfg.training.learning_rate
     batch_size = cfg.training.batch_size
     epochs = cfg.training.epochs
 
-    model = MyAwesomeModel(cfg.model)
+    model = MyAwesomeModel()
     criterion = nn.NLLLoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
@@ -73,4 +73,5 @@ def TrainModel(cfg):
     torch.save(model.state_dict(), trained_models_path)
 
 if __name__ == "__main__":
-    TrainModel()
+    cfg = OmegaConf.load('src/models/configs/training_conf.yaml')
+    TrainModel(cfg)

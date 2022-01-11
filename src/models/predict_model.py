@@ -10,12 +10,10 @@ import torch
 from src.models.model import MyAwesomeModel
 from numpy import mod
 from torch import nn, optim
-import hydra
 
 from src.data.data import mnist
 
-@hydra.main(config_path="configs", config_name="config.yaml")
-def EvaluateModel(cfg):
+def EvaluateModel():
     parser = argparse.ArgumentParser(
         description="Script for training models",
         usage="python predict_model.py <arguments>",
@@ -23,16 +21,16 @@ def EvaluateModel(cfg):
     parser.add_argument("load_model_from", default="")
     args = parser.parse_args(sys.argv[1:])
 
-    model = MyAwesomeModel(cfg.model)
+    model = MyAwesomeModel()
     state_dict = torch.load(
-        os.path.join(os.getcwd(),'..', '..', 'models', args.load_model_from)
+        os.path.join(os.getcwd(), 'models', args.load_model_from)
     )
 
     model.load_state_dict(state_dict)
     model.eval()
 
     criterion = nn.NLLLoss()
-    batch_size = cfg.training.batch_size
+    batch_size = 64
 
     _, test_dataset = mnist()
     testloader = torch.utils.data.DataLoader(
