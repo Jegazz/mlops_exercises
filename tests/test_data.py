@@ -1,8 +1,14 @@
 from src.data.data import mnist
 import unittest
+import os
+import torch
 
 def test_data():
-    train_dataset, test_dataset = mnist()
+    processed_train_name = os.path.abspath(os.path.join(os.getcwd(), 'data/processed/train_dataset.pt'))
+    processed_test_name = os.path.abspath(os.path.join(os.getcwd(), 'data/processed/test_dataset.pt'))
+
+    train_dataset = torch.load(processed_train_name)
+    test_dataset = torch.load(processed_test_name)
 
     # Asserting dataset lengths
     assert len(train_dataset) == 25000
