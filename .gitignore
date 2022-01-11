@@ -1,5 +1,3 @@
-/data/processed
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -78,9 +76,7 @@ target/
 .ipynb_checkpoints/
 
 # exclude data from source control by default
-/data/raw
-/data/external
-/data/interim
+/data
 
 # Mac OS-specific storage files
 .DS_Store
@@ -91,6 +87,3 @@ target/
 
 # Mypy cache
 .mypy_cache/
-/data/raw
-/data/external
-/data/interim
