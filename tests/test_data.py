@@ -2,7 +2,11 @@ from src.data.data import mnist
 import unittest
 import os
 import torch
+import pytest
 
+@pytest.mark.skipif(
+    not os.path.exists(os.path.abspath(os.path.join(os.getcwd(), 'data/processed'))),
+    reason="Data files not found, skipping data tests")
 def test_data():
     processed_train_name = os.path.abspath(os.path.join(os.getcwd(), 'data/processed/train_dataset.pt'))
     processed_test_name = os.path.abspath(os.path.join(os.getcwd(), 'data/processed/test_dataset.pt'))
