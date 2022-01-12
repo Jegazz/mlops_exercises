@@ -11,6 +11,7 @@ from numpy import mod
 from torch import nn, optim
 from src.data.data import mnist
 from omegaconf import OmegaConf
+from torch.profiler import profile, record_function, ProfilerActivity
 
 
 def TrainModel(cfg):
@@ -43,8 +44,11 @@ def TrainModel(cfg):
         model.train()
         for images, labels in trainloader:
             optimizer.zero_grad()
+            #with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
+            #    with record_function("model_inference"):
+            #        outputs = model(images)
+            #print(prof.key_averages(group_by_input_shape=True).table(sort_by="cpu_time_total", row_limit=30))
             outputs = model(images)
-            # pdb.set_trace()
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
