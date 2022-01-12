@@ -72,6 +72,10 @@ endif
 test_environment:
 	$(PYTHON_INTERPRETER) test_environment.py
 
+## Make profile for train (using the specified parameters from training_config.yaml)
+gen_train_profiler:
+	$(PYTHON_INTERPRETER) -m cProfile -o src/models/train_model.prof src/models/train_model.py
+
 #################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################
