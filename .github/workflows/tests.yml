@@ -27,6 +27,5 @@ jobs:
         pip install -r requirements_tests.txt
     - name: Test with pytest
       run: |
-        dvc pull
         pip install pytest
         pytest -v
