@@ -40,3 +40,5 @@ processed_test_name = os.path.abspath(os.path.join(os.getcwd(), 'data/processed/
 train_dataset, test_dataset = mnist()
 torch.save(train_dataset, processed_train_name)
 torch.save(test_dataset, processed_test_name)
+
+
