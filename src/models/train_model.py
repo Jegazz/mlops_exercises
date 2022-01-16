@@ -12,6 +12,7 @@ from torch import nn, optim
 from src.data.data import mnist
 from omegaconf import OmegaConf
 from torch.profiler import profile, record_function, ProfilerActivity
+import subprocess
 
 
 def TrainModel(cfg):
@@ -76,6 +77,11 @@ def TrainModel(cfg):
 
     # Saving Model
     torch.save(model.state_dict(), trained_models_path)
+
+    #Saving model in the bucket
+    tmp_model_file = os.path.join('/tmp', model_name)
+    torch.save(model.state_dict(), tmp_model_file)
+    subprocess.check_call(['gsutil', 'cp', tmp_model_file, os.path.join('/trained_models', model_name)])
 
 if __name__ == "__main__":
     cfg = OmegaConf.load('src/models/configs/training_conf.yaml')
