@@ -23,6 +23,7 @@ def TrainModel(cfg):
     trained_models_path = os.path.abspath(os.path.join(os.getcwd(),'models', model_name))
     processed_train_name = os.path.abspath(os.path.join(os.getcwd(), 'data/processed/train_dataset.pt'))
     bucket_name = 'gs://dtumlops-338009-aiplatform'
+    bucket_path = bucket_name + '/trained_models/' + model_name
 
     # Loading training parameters from config file
     learning_rate = cfg.training.learning_rate
@@ -80,9 +81,7 @@ def TrainModel(cfg):
     torch.save(model.state_dict(), trained_models_path)
 
     #Saving model in the bucket
-    tmp_model_file = os.path.join('/tmp', model_name)
-    torch.save(model.state_dict(), tmp_model_file)
-    subprocess.check_call(['gsutil', 'cp', tmp_model_file, os.path.join(bucket_name, '/trained_models', model_name)])
+    subprocess.check_call(['gsutil', 'cp', trained_models_path, bucket_path], shell=True)
 
 if __name__ == "__main__":
     cfg = OmegaConf.load('src/models/configs/training_conf.yaml')
