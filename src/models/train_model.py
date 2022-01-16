@@ -75,7 +75,7 @@ def TrainModel(cfg):
     # Saving Training Curve under report/figures
     plt.savefig(figure_path)
 
-    cloud_model_path = os.path.join('root/models', model_name)
+    cloud_model_path = os.path.join('/temp', model_name)
 
     print(cloud_model_path)
 
